@@ -1,0 +1,17 @@
+<form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+  <div *ngFor="let control of formService.formStructure">
+    <label>{{control.label}}</label>
+    <div *ngIf="control.type !== 'select'">
+      <input [type]="control.type" [formControlName]="control.name">
+    </div>
+    <div *ngIf="control.type === 'select'">
+      <select [formControlName]="control.name">
+        <option *ngFor="let option of control.options" [value]="option">{{option}}</option>
+      </select>
+    </div>
+    <span *ngIf="dynamicForm.controls[control.name]?.invalid && dynamicForm.controls[control.name]?.touched">
+      {{getErrorMessage(control)}}
+    </span>
+  </div>
+  <button type="submit">Submit</button>
+</form>
